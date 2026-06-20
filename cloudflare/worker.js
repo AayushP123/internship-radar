@@ -338,10 +338,13 @@ async function statusResponse(env) {
 
 export default {
   async scheduled(controller, env, ctx) {
-    const shard = Number(env.SHARD_INDEX);
-    if (!Number.isInteger(shard) || shard < 0 || shard >= SHARD_COUNT) {
-      throw new Error(`Invalid SHARD_INDEX: ${env.SHARD_INDEX}`);
-    }
+    const configuredShard = Number(env.SHARD_INDEX);
+    const shard =
+      Number.isInteger(configuredShard) &&
+      configuredShard >= 0 &&
+      configuredShard < SHARD_COUNT
+        ? configuredShard
+        : Math.floor(controller.scheduledTime / 60000) % SHARD_COUNT;
     ctx.waitUntil(runShard(env, shard));
   },
 

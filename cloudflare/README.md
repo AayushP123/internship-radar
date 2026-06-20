@@ -2,8 +2,8 @@
 
 This Worker is the reliable cloud runtime for Internship Radar.
 
-- Four independent cron Workers split the live company catalog into shards.
-- Every company is checked every five minutes.
+- One minutely cron rotates through four catalog shards.
+- Every company is checked every four minutes.
 - Cloudflare KV stores deduplication state.
 - `NTFY_TOPIC` is an encrypted Worker secret.
 - `/status` shows the last run of every shard without exposing secrets or jobs.

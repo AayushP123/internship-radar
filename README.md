@@ -1,6 +1,6 @@
 # Internship Radar
 
-Internship Radar checks **135 live company job feeds** every five minutes on
+Internship Radar checks **135 live company job feeds** every four minutes on
 Cloudflare Workers, filters for US/remote software engineering internships,
 deduplicates results, and sends push notifications through ntfy.
 
@@ -45,9 +45,9 @@ The Windows scheduled task can be installed or removed with:
 
 ## Cloud runtime
 
-The production runtime is in `cloudflare/`. Four staggered cron shards check
-every live company feed once per five minutes. `NTFY_TOPIC` is stored as an
-encrypted Worker secret.
+The production runtime is in `cloudflare/`. One minutely cron rotates through
+four shards, checking every live company feed once per four minutes.
+`NTFY_TOPIC` is stored as an encrypted Worker secret.
 
 GitHub Actions remains available for manual diagnostic runs. The included
 Windows task and Dockerfile are optional local fallbacks.
