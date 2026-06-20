@@ -4,3 +4,4 @@ __pycache__/
 local-secrets.ps1
 state.json.tmp
 monitor.log
+cloudflare/.wrangler/

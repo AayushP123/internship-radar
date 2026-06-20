@@ -328,24 +328,34 @@ async function statusResponse(env) {
       env.SEEN.get(`status:${shard}`, "json"),
     ),
   );
+  const now = Date.now();
+  const fresh = statuses.every(
+    (status) =>
+      status &&
+      now - Date.parse(status.completedAt) < 12 * 60 * 1000,
+  );
   return Response.json({
     service: "Internship Radar",
-    healthy: statuses.every(Boolean),
-    schedule: "Each company every 5 minutes across four staggered shards",
+    healthy: fresh,
+    schedule: "One queue-driven shard per minute; every company every 4 minutes",
     shards: statuses,
   });
 }
 
 export default {
-  async scheduled(controller, env, ctx) {
-    const configuredShard = Number(env.SHARD_INDEX);
-    const shard =
-      Number.isInteger(configuredShard) &&
-      configuredShard >= 0 &&
-      configuredShard < SHARD_COUNT
-        ? configuredShard
-        : Math.floor(controller.scheduledTime / 60000) % SHARD_COUNT;
-    ctx.waitUntil(runShard(env, shard));
+  async queue(batch, env) {
+    for (const message of batch.messages) {
+      const shard = Number(message.body?.shard);
+      if (!Number.isInteger(shard) || shard < 0 || shard >= SHARD_COUNT) {
+        throw new Error(`Invalid queue shard: ${message.body?.shard}`);
+      }
+      await runShard(env, shard);
+      await env.TICKS.send(
+        { shard: (shard + 1) % SHARD_COUNT },
+        { delaySeconds: 60 },
+      );
+      message.ack();
+    }
   },
 
   async fetch(request, env) {

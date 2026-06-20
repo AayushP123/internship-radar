@@ -45,9 +45,10 @@ The Windows scheduled task can be installed or removed with:
 
 ## Cloud runtime
 
-The production runtime is in `cloudflare/`. One minutely cron rotates through
-four shards, checking every live company feed once per four minutes.
-`NTFY_TOPIC` is stored as an encrypted Worker secret.
+The production runtime is in `cloudflare/`. A delayed Cloudflare Queue message
+rotates through four shards, checking every live company feed once per four
+minutes. Queue retries recover transient failures automatically. `NTFY_TOPIC`
+is stored as an encrypted Worker secret.
 
 GitHub Actions remains available for manual diagnostic runs. The included
 Windows task and Dockerfile are optional local fallbacks.

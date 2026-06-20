@@ -12,4 +12,14 @@ binding = "SEEN"
 id = "1ca154ac6e984d59b396205e282af2ea"
 
 [triggers]
-crons = [ "* * * * *" ]
+crons = []
+
+[[queues.producers]]
+binding = "TICKS"
+queue = "internship-radar-ticks"
+
+[[queues.consumers]]
+queue = "internship-radar-ticks"
+max_batch_size = 1
+max_batch_timeout = 1
+max_retries = 5
