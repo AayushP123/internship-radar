@@ -1,8 +1,13 @@
 const CATALOG_URL =
   "https://raw.githubusercontent.com/AayushP123/internship-radar/main/companies.json";
+const SIMPLIFY_URLS = [
+  "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README.md",
+  "https://raw.githubusercontent.com/SimplifyJobs/Summer2026-Internships/dev/README-Off-Season.md",
+];
 
 const SHARD_COUNT = 4;
 const ALERT_CAP = 10;
+const TRACKED_COMPANY_COUNT = 2592;
 const INTERNSHIP_TERMS = ["intern", "internship", "co-op", "coop"];
 const ROLE_TERMS = [
   "software engineer",
@@ -161,6 +166,17 @@ async function fetchJson(url) {
   return response.json();
 }
 
+async function fetchText(url) {
+  const response = await fetch(url, {
+    headers: {
+      Accept: "text/plain",
+      "User-Agent": "InternshipRadar-Cloudflare/1.0",
+    },
+  });
+  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  return response.text();
+}
+
 async function fetchGreenhouse(company) {
   const slug = encodeURIComponent(company.slug);
   const data = await fetchJson(
@@ -211,6 +227,59 @@ async function fetchCompany(company) {
   if (company.provider === "ashby") return fetchAshby(company);
   if (company.provider === "lever") return fetchLever(company);
   return [];
+}
+
+function extractHref(value) {
+  const matches = [...String(value || "").matchAll(/href="([^"]+)"/gi)];
+  const preferred = matches
+    .map((match) => match[1].replace(/&amp;/g, "&"))
+    .find(
+      (url) =>
+        !url.includes("simplify.jobs/p/") &&
+        !url.includes("i.imgur.com/"),
+    );
+  return preferred || "";
+}
+
+function parseSimplify(text) {
+  const jobs = [];
+  let company = "";
+  for (const rowMatch of text.matchAll(/<tr>([\s\S]*?)<\/tr>/gi)) {
+    const cells = [...rowMatch[1].matchAll(/<td[^>]*>([\s\S]*?)<\/td>/gi)];
+    if (cells.length < 4) continue;
+    const companyCell = clean(cells[0][1]);
+    if (companyCell && companyCell !== "↳" && companyCell !== "â†³") {
+      company = companyCell;
+    }
+    if (!company) continue;
+    const url = cells
+      .slice(3)
+      .map((cell) => extractHref(cell[1]))
+      .find(Boolean);
+    if (!url) continue;
+    jobs.push({
+      company,
+      title: clean(cells[1][1]),
+      location: clean(cells[2][1]),
+      url,
+      source: "broad",
+    });
+  }
+  return jobs;
+}
+
+async function fetchSimplify() {
+  const settled = await Promise.allSettled(
+    SIMPLIFY_URLS.map(async (url) => parseSimplify(await fetchText(url))),
+  );
+  const jobs = [];
+  const errors = [];
+  for (let index = 0; index < settled.length; index += 1) {
+    const result = settled[index];
+    if (result.status === "fulfilled") jobs.push(...result.value);
+    else errors.push(`Simplify feed ${index + 1}: ${result.reason}`);
+  }
+  return { jobs, errors };
 }
 
 async function sha256(value) {
@@ -276,7 +345,21 @@ async function runShard(env, shard) {
   const live = catalog.filter((company) => company.enabled !== false);
   const companies = live.filter((_, index) => index % SHARD_COUNT === shard);
   const { output: jobs, errors } = await inBatches(companies, 6, fetchCompany);
-  const matched = jobs.filter(matches);
+  if (shard === 0) {
+    const broad = await fetchSimplify();
+    jobs.push(...broad.jobs);
+    errors.push(...broad.errors);
+  }
+  const matched = [
+    ...new Map(
+      jobs
+        .filter(matches)
+        .map((job) => [
+          [job.company, job.title, job.location].map(normalize).join("|"),
+          job,
+        ]),
+    ).values(),
+  ];
   const stateKey = `state:${shard}`;
   const previous = (await env.SEEN.get(stateKey, "json")) || {
     initialized: false,
@@ -287,6 +370,13 @@ async function runShard(env, shard) {
   for (const job of matched) keyed.push([await fingerprint(job), job]);
 
   let sent = 0;
+  let broadInitialized = Boolean(previous.broadInitialized);
+  if (shard === 0 && !broadInitialized) {
+    for (const [key, job] of keyed) {
+      if (job.source === "broad") seen.add(key);
+    }
+    broadInitialized = true;
+  }
   if (!previous.initialized) {
     for (const [key] of keyed) seen.add(key);
   } else {
@@ -300,9 +390,14 @@ async function runShard(env, shard) {
 
   const state = {
     initialized: true,
+    broadInitialized,
     seen: [...seen],
   };
-  if (!previous.initialized || sent > 0) {
+  if (
+    !previous.initialized ||
+    sent > 0 ||
+    Boolean(previous.broadInitialized) !== broadInitialized
+  ) {
     await env.SEEN.put(stateKey, JSON.stringify(state));
   }
 
@@ -345,7 +440,7 @@ async function readStatus(env) {
     .sort((a, b) =>
       `${a.company} ${a.title}`.localeCompare(`${b.company} ${b.title}`),
     );
-  const companyCount = statuses.reduce(
+  const directCompanyCount = statuses.reduce(
     (total, status) => total + (status?.companies || 0),
     0,
   );
@@ -358,7 +453,9 @@ async function readStatus(env) {
       .map((status) => status.completedAt)
       .sort()
       .at(-1),
-    companyCount,
+    companyCount: TRACKED_COMPANY_COUNT,
+    directCompanyCount,
+    broadFeedCount: SIMPLIFY_URLS.length,
     currentPostings: jobs,
     shards: statuses,
   };
@@ -426,7 +523,7 @@ function dashboard(data) {
   <div class="status">
     <span class="dot" id="health-dot"></span><span id="health">${data.healthy ? "Monitor online" : "Monitor refreshing"}</span><br>
     <span id="count">${data.currentPostings.length}</span> current matching postings · Last checked <span id="updated">${escapeHtml(updated)}</span><br>
-    <span id="coverage">${data.companyCount || 0}</span> companies scanned; every company is checked about every 4 minutes.
+    <span id="coverage">${data.companyCount || 0}</span> companies covered · <span id="direct">${data.directCompanyCount || 0}</span> direct ATS feeds plus maintained broad-market feeds.
   </div>
   <div class="controls">
     <button id="refresh" type="button">Refresh now</button>
@@ -488,6 +585,8 @@ function dashboard(data) {
           formatTime(data.lastUpdated);
         document.getElementById("coverage").textContent =
           data.companyCount || 0;
+        document.getElementById("direct").textContent =
+          data.directCompanyCount || 0;
         jobs.replaceChildren();
         if (!data.currentPostings.length) {
           const empty = document.createElement("div");
@@ -545,6 +644,8 @@ function dashboard(data) {
 </main></body>
 </html>`;
 }
+
+export { matches, parseSimplify };
 
 export default {
   async queue(batch, env) {
