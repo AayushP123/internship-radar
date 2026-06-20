@@ -1,10 +1,6 @@
 name: Internship Radar
 
 on:
-  schedule:
-    # Every five minutes, offset from :00 where GitHub reports the heaviest
-    # scheduler load and a higher chance of delayed or dropped runs.
-    - cron: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
   workflow_dispatch:
 
 permissions:

@@ -1,9 +1,11 @@
 # Internship Radar
 
-Internship Radar checks **135 live company job feeds** every two minutes on
-Windows (or every five minutes with GitHub Actions), filters for US/remote
-software engineering internships, deduplicates results, and sends push
-notifications through ntfy.
+Internship Radar checks **135 live company job feeds** every five minutes on
+Cloudflare Workers, filters for US/remote software engineering internships,
+deduplicates results, and sends push notifications through ntfy.
+
+Live health:
+https://internship-radar.aayush-internship-radar-7f3b.workers.dev/status
 
 The broader catalog contains 220 companies. Companies whose direct ATS mapping
 is currently inactive remain eligible through the maintained SimplifyJobs
@@ -22,7 +24,7 @@ topic supplied separately. Treat that topic name like a password.
 - software, backend, frontend, mobile, platform, ML, data, security, systems,
   firmware, embedded, DevOps, and quantitative-development internships
 - quiet first run, so existing listings do not flood your phone
-- deduplication in `state.json`
+- cloud deduplication in Cloudflare KV
 
 ## Commands
 
@@ -41,11 +43,11 @@ The Windows scheduled task can be installed or removed with:
 .\uninstall_windows_task.ps1
 ```
 
-## Run in the cloud
+## Cloud runtime
 
-Keep the repository **private**, push this folder to GitHub, and Actions will
-check every five minutes. Add an Actions secret named `NTFY_TOPIC` with your
-private topic. The workflow persists `state.json` whenever new jobs are found.
+The production runtime is in `cloudflare/`. Four staggered cron shards check
+every live company feed once per five minutes. `NTFY_TOPIC` is stored as an
+encrypted Worker secret.
 
-For checks closer to two minutes, deploy the included `Dockerfile` as an
-always-on background worker and set `NTFY_TOPIC` as an environment variable.
+GitHub Actions remains available for manual diagnostic runs. The included
+Windows task and Dockerfile are optional local fallbacks.

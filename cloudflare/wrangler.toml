@@ -1,0 +1,20 @@
+name = "internship-radar"
+main = "worker.js"
+compatibility_date = "2026-06-19"
+workers_dev = true
+preview_urls = false
+
+[observability]
+enabled = true
+
+[[kv_namespaces]]
+binding = "SEEN"
+id = "1ca154ac6e984d59b396205e282af2ea"
+
+[triggers]
+crons = [
+  "1-56/5 * * * *",
+  "2-57/5 * * * *",
+  "3-58/5 * * * *",
+  "4-59/5 * * * *"
+]
