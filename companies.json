@@ -1,0 +1,1187 @@
+[
+  {
+    "name": "1Password",
+    "provider": "greenhouse",
+    "slug": "1password",
+    "enabled": false
+  },
+  {
+    "name": "Abridge",
+    "provider": "greenhouse",
+    "slug": "abridge",
+    "enabled": false
+  },
+  {
+    "name": "Affirm",
+    "provider": "greenhouse",
+    "slug": "affirm"
+  },
+  {
+    "name": "Airbnb",
+    "provider": "greenhouse",
+    "slug": "airbnb"
+  },
+  {
+    "name": "Airtable",
+    "provider": "greenhouse",
+    "slug": "airtable"
+  },
+  {
+    "name": "Algolia",
+    "provider": "greenhouse",
+    "slug": "algolia"
+  },
+  {
+    "name": "Amplitude",
+    "provider": "greenhouse",
+    "slug": "amplitude"
+  },
+  {
+    "name": "Anduril",
+    "provider": "greenhouse",
+    "slug": "andurilindustries"
+  },
+  {
+    "name": "Anthropic",
+    "provider": "greenhouse",
+    "slug": "anthropic"
+  },
+  {
+    "name": "AppLovin",
+    "provider": "greenhouse",
+    "slug": "applovin"
+  },
+  {
+    "name": "Asana",
+    "provider": "greenhouse",
+    "slug": "asana"
+  },
+  {
+    "name": "Atlassian",
+    "provider": "greenhouse",
+    "slug": "atlassian",
+    "enabled": false
+  },
+  {
+    "name": "Attentive",
+    "provider": "greenhouse",
+    "slug": "attentivemobile",
+    "enabled": false
+  },
+  {
+    "name": "Aurora",
+    "provider": "greenhouse",
+    "slug": "aurorainnovation"
+  },
+  {
+    "name": "Aurora Solar",
+    "provider": "greenhouse",
+    "slug": "aurorasolar",
+    "enabled": false
+  },
+  {
+    "name": "Benchling",
+    "provider": "greenhouse",
+    "slug": "benchling",
+    "enabled": false
+  },
+  {
+    "name": "Betterment",
+    "provider": "greenhouse",
+    "slug": "betterment"
+  },
+  {
+    "name": "BILL",
+    "provider": "greenhouse",
+    "slug": "bill",
+    "enabled": false
+  },
+  {
+    "name": "BitGo",
+    "provider": "greenhouse",
+    "slug": "bitgo"
+  },
+  {
+    "name": "Blend",
+    "provider": "greenhouse",
+    "slug": "blend"
+  },
+  {
+    "name": "Block",
+    "provider": "greenhouse",
+    "slug": "block"
+  },
+  {
+    "name": "Box",
+    "provider": "greenhouse",
+    "slug": "box",
+    "enabled": false
+  },
+  {
+    "name": "Braze",
+    "provider": "greenhouse",
+    "slug": "braze"
+  },
+  {
+    "name": "Brex",
+    "provider": "greenhouse",
+    "slug": "brex"
+  },
+  {
+    "name": "Bumble",
+    "provider": "greenhouse",
+    "slug": "bumble",
+    "enabled": false
+  },
+  {
+    "name": "Calendly",
+    "provider": "greenhouse",
+    "slug": "calendly"
+  },
+  {
+    "name": "Canva",
+    "provider": "greenhouse",
+    "slug": "canva",
+    "enabled": false
+  },
+  {
+    "name": "Carta",
+    "provider": "greenhouse",
+    "slug": "carta"
+  },
+  {
+    "name": "Carvana",
+    "provider": "greenhouse",
+    "slug": "carvana"
+  },
+  {
+    "name": "Checkr",
+    "provider": "greenhouse",
+    "slug": "checkr"
+  },
+  {
+    "name": "Chewy",
+    "provider": "greenhouse",
+    "slug": "chewy",
+    "enabled": false
+  },
+  {
+    "name": "Chime",
+    "provider": "greenhouse",
+    "slug": "chime"
+  },
+  {
+    "name": "Circle",
+    "provider": "greenhouse",
+    "slug": "circle",
+    "enabled": false
+  },
+  {
+    "name": "Clari",
+    "provider": "greenhouse",
+    "slug": "clari",
+    "enabled": false
+  },
+  {
+    "name": "Clear Street",
+    "provider": "greenhouse",
+    "slug": "clearstreet"
+  },
+  {
+    "name": "ClickHouse",
+    "provider": "greenhouse",
+    "slug": "clickhouse"
+  },
+  {
+    "name": "Cloudflare",
+    "provider": "greenhouse",
+    "slug": "cloudflare"
+  },
+  {
+    "name": "Coalition",
+    "provider": "greenhouse",
+    "slug": "coalition"
+  },
+  {
+    "name": "Cockroach Labs",
+    "provider": "greenhouse",
+    "slug": "cockroachlabs"
+  },
+  {
+    "name": "Cohere",
+    "provider": "greenhouse",
+    "slug": "cohere",
+    "enabled": false
+  },
+  {
+    "name": "Coinbase",
+    "provider": "greenhouse",
+    "slug": "coinbase"
+  },
+  {
+    "name": "Compass",
+    "provider": "greenhouse",
+    "slug": "compass",
+    "enabled": false
+  },
+  {
+    "name": "Confluent",
+    "provider": "greenhouse",
+    "slug": "confluent",
+    "enabled": false
+  },
+  {
+    "name": "CoreWeave",
+    "provider": "greenhouse",
+    "slug": "coreweave"
+  },
+  {
+    "name": "Coursera",
+    "provider": "greenhouse",
+    "slug": "coursera"
+  },
+  {
+    "name": "Cribl",
+    "provider": "greenhouse",
+    "slug": "cribl"
+  },
+  {
+    "name": "Cruise",
+    "provider": "greenhouse",
+    "slug": "cruise",
+    "enabled": false
+  },
+  {
+    "name": "Dataiku",
+    "provider": "greenhouse",
+    "slug": "dataiku"
+  },
+  {
+    "name": "Databricks",
+    "provider": "greenhouse",
+    "slug": "databricks"
+  },
+  {
+    "name": "Datadog",
+    "provider": "greenhouse",
+    "slug": "datadog"
+  },
+  {
+    "name": "Datavant",
+    "provider": "greenhouse",
+    "slug": "datavant",
+    "enabled": false
+  },
+  {
+    "name": "dbt Labs",
+    "provider": "greenhouse",
+    "slug": "dbtlabs",
+    "enabled": false
+  },
+  {
+    "name": "Deel",
+    "provider": "greenhouse",
+    "slug": "deel",
+    "enabled": false
+  },
+  {
+    "name": "DigitalOcean",
+    "provider": "greenhouse",
+    "slug": "digitalocean98"
+  },
+  {
+    "name": "Discord",
+    "provider": "greenhouse",
+    "slug": "discord"
+  },
+  {
+    "name": "DocuSign",
+    "provider": "greenhouse",
+    "slug": "docusign",
+    "enabled": false
+  },
+  {
+    "name": "DoorDash",
+    "provider": "greenhouse",
+    "slug": "doordash",
+    "enabled": false
+  },
+  {
+    "name": "Dropbox",
+    "provider": "greenhouse",
+    "slug": "dropbox"
+  },
+  {
+    "name": "Duolingo",
+    "provider": "greenhouse",
+    "slug": "duolingo"
+  },
+  {
+    "name": "Elastic",
+    "provider": "greenhouse",
+    "slug": "elastic"
+  },
+  {
+    "name": "Epic Games",
+    "provider": "greenhouse",
+    "slug": "epicgames"
+  },
+  {
+    "name": "Etsy",
+    "provider": "greenhouse",
+    "slug": "etsy",
+    "enabled": false
+  },
+  {
+    "name": "Faire",
+    "provider": "greenhouse",
+    "slug": "faire"
+  },
+  {
+    "name": "FanDuel",
+    "provider": "greenhouse",
+    "slug": "fanduel"
+  },
+  {
+    "name": "Fastly",
+    "provider": "greenhouse",
+    "slug": "fastly"
+  },
+  {
+    "name": "Figma",
+    "provider": "greenhouse",
+    "slug": "figma"
+  },
+  {
+    "name": "Fivetran",
+    "provider": "greenhouse",
+    "slug": "fivetran"
+  },
+  {
+    "name": "Flatiron Health",
+    "provider": "greenhouse",
+    "slug": "flatironhealth"
+  },
+  {
+    "name": "Flexport",
+    "provider": "greenhouse",
+    "slug": "flexport"
+  },
+  {
+    "name": "Glean",
+    "provider": "greenhouse",
+    "slug": "gleanwork"
+  },
+  {
+    "name": "GitLab",
+    "provider": "greenhouse",
+    "slug": "gitlab"
+  },
+  {
+    "name": "GoFundMe",
+    "provider": "greenhouse",
+    "slug": "gofundme"
+  },
+  {
+    "name": "Grafana Labs",
+    "provider": "greenhouse",
+    "slug": "grafanalabs"
+  },
+  {
+    "name": "Grammarly",
+    "provider": "greenhouse",
+    "slug": "grammarly",
+    "enabled": false
+  },
+  {
+    "name": "Gusto",
+    "provider": "greenhouse",
+    "slug": "gusto"
+  },
+  {
+    "name": "Handshake",
+    "provider": "greenhouse",
+    "slug": "joinhandshake",
+    "enabled": false
+  },
+  {
+    "name": "HashiCorp",
+    "provider": "greenhouse",
+    "slug": "hashicorp",
+    "enabled": false
+  },
+  {
+    "name": "Highspot",
+    "provider": "greenhouse",
+    "slug": "highspot",
+    "enabled": false
+  },
+  {
+    "name": "Hinge",
+    "provider": "greenhouse",
+    "slug": "hinge",
+    "enabled": false
+  },
+  {
+    "name": "HubSpot",
+    "provider": "greenhouse",
+    "slug": "hubspotjobs"
+  },
+  {
+    "name": "Indeed",
+    "provider": "greenhouse",
+    "slug": "indeed"
+  },
+  {
+    "name": "Instacart",
+    "provider": "greenhouse",
+    "slug": "instacart"
+  },
+  {
+    "name": "Intercom",
+    "provider": "greenhouse",
+    "slug": "intercom"
+  },
+  {
+    "name": "iRobot",
+    "provider": "greenhouse",
+    "slug": "irobot",
+    "enabled": false
+  },
+  {
+    "name": "Jane Street",
+    "provider": "greenhouse",
+    "slug": "janestreet"
+  },
+  {
+    "name": "Khan Academy",
+    "provider": "greenhouse",
+    "slug": "khanacademy"
+  },
+  {
+    "name": "Klaviyo",
+    "provider": "greenhouse",
+    "slug": "klaviyo"
+  },
+  {
+    "name": "Lambda",
+    "provider": "greenhouse",
+    "slug": "lambdalabs",
+    "enabled": false
+  },
+  {
+    "name": "Lattice",
+    "provider": "greenhouse",
+    "slug": "lattice"
+  },
+  {
+    "name": "Lime",
+    "provider": "greenhouse",
+    "slug": "lime",
+    "enabled": false
+  },
+  {
+    "name": "Lucid Motors",
+    "provider": "greenhouse",
+    "slug": "lucidmotors"
+  },
+  {
+    "name": "Lucid Software",
+    "provider": "greenhouse",
+    "slug": "lucidsoftware"
+  },
+  {
+    "name": "Lyft",
+    "provider": "greenhouse",
+    "slug": "lyft"
+  },
+  {
+    "name": "Mapbox",
+    "provider": "greenhouse",
+    "slug": "mapbox",
+    "enabled": false
+  },
+  {
+    "name": "Marqeta",
+    "provider": "greenhouse",
+    "slug": "marqeta"
+  },
+  {
+    "name": "Match Group",
+    "provider": "greenhouse",
+    "slug": "matchgroup",
+    "enabled": false
+  },
+  {
+    "name": "Medium",
+    "provider": "greenhouse",
+    "slug": "medium"
+  },
+  {
+    "name": "Miro",
+    "provider": "greenhouse",
+    "slug": "miro",
+    "enabled": false
+  },
+  {
+    "name": "Mixpanel",
+    "provider": "greenhouse",
+    "slug": "mixpanel"
+  },
+  {
+    "name": "MongoDB",
+    "provider": "greenhouse",
+    "slug": "mongodb"
+  },
+  {
+    "name": "Motive",
+    "provider": "greenhouse",
+    "slug": "gomotive"
+  },
+  {
+    "name": "Mozilla",
+    "provider": "greenhouse",
+    "slug": "mozilla"
+  },
+  {
+    "name": "Mural",
+    "provider": "greenhouse",
+    "slug": "mural",
+    "enabled": false
+  },
+  {
+    "name": "Netskope",
+    "provider": "greenhouse",
+    "slug": "netskope"
+  },
+  {
+    "name": "New Relic",
+    "provider": "greenhouse",
+    "slug": "newrelic"
+  },
+  {
+    "name": "Nextdoor",
+    "provider": "greenhouse",
+    "slug": "nextdoor"
+  },
+  {
+    "name": "Niantic",
+    "provider": "greenhouse",
+    "slug": "niantic",
+    "enabled": false
+  },
+  {
+    "name": "Notion",
+    "provider": "greenhouse",
+    "slug": "notion",
+    "enabled": false
+  },
+  {
+    "name": "Nuro",
+    "provider": "greenhouse",
+    "slug": "nuro"
+  },
+  {
+    "name": "Okta",
+    "provider": "greenhouse",
+    "slug": "okta"
+  },
+  {
+    "name": "OneTrust",
+    "provider": "greenhouse",
+    "slug": "onetrust"
+  },
+  {
+    "name": "OpenAI",
+    "provider": "greenhouse",
+    "slug": "openai",
+    "enabled": false
+  },
+  {
+    "name": "Opendoor",
+    "provider": "greenhouse",
+    "slug": "opendoor",
+    "enabled": false
+  },
+  {
+    "name": "Oscar Health",
+    "provider": "greenhouse",
+    "slug": "oscar"
+  },
+  {
+    "name": "Outreach",
+    "provider": "greenhouse",
+    "slug": "outreach",
+    "enabled": false
+  },
+  {
+    "name": "PagerDuty",
+    "provider": "greenhouse",
+    "slug": "pagerduty"
+  },
+  {
+    "name": "Palantir",
+    "provider": "greenhouse",
+    "slug": "palantir",
+    "enabled": false
+  },
+  {
+    "name": "Patreon",
+    "provider": "greenhouse",
+    "slug": "patreon",
+    "enabled": false
+  },
+  {
+    "name": "Peloton",
+    "provider": "greenhouse",
+    "slug": "peloton"
+  },
+  {
+    "name": "Personio",
+    "provider": "greenhouse",
+    "slug": "personio",
+    "enabled": false
+  },
+  {
+    "name": "Pinterest",
+    "provider": "greenhouse",
+    "slug": "pinterest"
+  },
+  {
+    "name": "Plaid",
+    "provider": "greenhouse",
+    "slug": "plaid",
+    "enabled": false
+  },
+  {
+    "name": "Postman",
+    "provider": "greenhouse",
+    "slug": "postman"
+  },
+  {
+    "name": "Procore",
+    "provider": "greenhouse",
+    "slug": "procore",
+    "enabled": false
+  },
+  {
+    "name": "Qualtrics",
+    "provider": "greenhouse",
+    "slug": "qualtrics"
+  },
+  {
+    "name": "Reddit",
+    "provider": "greenhouse",
+    "slug": "reddit"
+  },
+  {
+    "name": "Redfin",
+    "provider": "greenhouse",
+    "slug": "redfin",
+    "enabled": false
+  },
+  {
+    "name": "Retool",
+    "provider": "greenhouse",
+    "slug": "retool",
+    "enabled": false
+  },
+  {
+    "name": "Rippling",
+    "provider": "greenhouse",
+    "slug": "rippling",
+    "enabled": false
+  },
+  {
+    "name": "Rivian",
+    "provider": "greenhouse",
+    "slug": "rivian",
+    "enabled": false
+  },
+  {
+    "name": "Robinhood",
+    "provider": "greenhouse",
+    "slug": "robinhood"
+  },
+  {
+    "name": "Roblox",
+    "provider": "greenhouse",
+    "slug": "roblox"
+  },
+  {
+    "name": "Roku",
+    "provider": "greenhouse",
+    "slug": "roku"
+  },
+  {
+    "name": "Rubrik",
+    "provider": "greenhouse",
+    "slug": "rubrik"
+  },
+  {
+    "name": "Runway",
+    "provider": "greenhouse",
+    "slug": "runwayml",
+    "enabled": false
+  },
+  {
+    "name": "Samsara",
+    "provider": "greenhouse",
+    "slug": "samsara"
+  },
+  {
+    "name": "Scale AI",
+    "provider": "greenhouse",
+    "slug": "scaleai"
+  },
+  {
+    "name": "SeatGeek",
+    "provider": "greenhouse",
+    "slug": "seatgeek"
+  },
+  {
+    "name": "Sentry",
+    "provider": "greenhouse",
+    "slug": "sentry",
+    "enabled": false
+  },
+  {
+    "name": "SentinelOne",
+    "provider": "greenhouse",
+    "slug": "sentinelone",
+    "enabled": false
+  },
+  {
+    "name": "Shopify",
+    "provider": "greenhouse",
+    "slug": "shopify",
+    "enabled": false
+  },
+  {
+    "name": "Sigma Computing",
+    "provider": "greenhouse",
+    "slug": "sigmacomputing"
+  },
+  {
+    "name": "SingleStore",
+    "provider": "greenhouse",
+    "slug": "singlestore"
+  },
+  {
+    "name": "Snyk",
+    "provider": "greenhouse",
+    "slug": "snyk",
+    "enabled": false
+  },
+  {
+    "name": "Snowflake",
+    "provider": "greenhouse",
+    "slug": "snowflake",
+    "enabled": false
+  },
+  {
+    "name": "SoFi",
+    "provider": "greenhouse",
+    "slug": "sofi"
+  },
+  {
+    "name": "SpaceX",
+    "provider": "greenhouse",
+    "slug": "spacex"
+  },
+  {
+    "name": "Splunk",
+    "provider": "greenhouse",
+    "slug": "splunk",
+    "enabled": false
+  },
+  {
+    "name": "Squarespace",
+    "provider": "greenhouse",
+    "slug": "squarespace"
+  },
+  {
+    "name": "Stack Overflow",
+    "provider": "greenhouse",
+    "slug": "stackoverflow",
+    "enabled": false
+  },
+  {
+    "name": "Stripe",
+    "provider": "greenhouse",
+    "slug": "stripe"
+  },
+  {
+    "name": "StubHub",
+    "provider": "greenhouse",
+    "slug": "stubhub",
+    "enabled": false
+  },
+  {
+    "name": "Tanium",
+    "provider": "greenhouse",
+    "slug": "tanium"
+  },
+  {
+    "name": "Tempus",
+    "provider": "greenhouse",
+    "slug": "tempus",
+    "enabled": false
+  },
+  {
+    "name": "The Trade Desk",
+    "provider": "greenhouse",
+    "slug": "thetradedesk"
+  },
+  {
+    "name": "Thumbtack",
+    "provider": "greenhouse",
+    "slug": "thumbtack",
+    "enabled": false
+  },
+  {
+    "name": "Toast",
+    "provider": "greenhouse",
+    "slug": "toast"
+  },
+  {
+    "name": "Tripadvisor",
+    "provider": "greenhouse",
+    "slug": "tripadvisor"
+  },
+  {
+    "name": "Twilio",
+    "provider": "greenhouse",
+    "slug": "twilio"
+  },
+  {
+    "name": "Twitch",
+    "provider": "greenhouse",
+    "slug": "twitch"
+  },
+  {
+    "name": "Two Sigma",
+    "provider": "greenhouse",
+    "slug": "twosigma",
+    "enabled": false
+  },
+  {
+    "name": "Udemy",
+    "provider": "greenhouse",
+    "slug": "udemy"
+  },
+  {
+    "name": "UiPath",
+    "provider": "greenhouse",
+    "slug": "uipath",
+    "enabled": false
+  },
+  {
+    "name": "Unity",
+    "provider": "greenhouse",
+    "slug": "unity3d"
+  },
+  {
+    "name": "Vanta",
+    "provider": "greenhouse",
+    "slug": "vanta",
+    "enabled": false
+  },
+  {
+    "name": "Varo",
+    "provider": "greenhouse",
+    "slug": "varomoney",
+    "enabled": false
+  },
+  {
+    "name": "Veeva",
+    "provider": "greenhouse",
+    "slug": "veeva",
+    "enabled": false
+  },
+  {
+    "name": "Verkada",
+    "provider": "greenhouse",
+    "slug": "verkada"
+  },
+  {
+    "name": "Vimeo",
+    "provider": "greenhouse",
+    "slug": "vimeo",
+    "enabled": false
+  },
+  {
+    "name": "Waymo",
+    "provider": "greenhouse",
+    "slug": "waymo"
+  },
+  {
+    "name": "Webflow",
+    "provider": "greenhouse",
+    "slug": "webflow"
+  },
+  {
+    "name": "Whatnot",
+    "provider": "greenhouse",
+    "slug": "whatnot",
+    "enabled": false
+  },
+  {
+    "name": "WHOOP",
+    "provider": "greenhouse",
+    "slug": "whoop",
+    "enabled": false
+  },
+  {
+    "name": "Yelp",
+    "provider": "greenhouse",
+    "slug": "yelp",
+    "enabled": false
+  },
+  {
+    "name": "Yext",
+    "provider": "greenhouse",
+    "slug": "yext"
+  },
+  {
+    "name": "Zapier",
+    "provider": "greenhouse",
+    "slug": "zapier",
+    "enabled": false
+  },
+  {
+    "name": "Zendesk",
+    "provider": "greenhouse",
+    "slug": "zendesk",
+    "enabled": false
+  },
+  {
+    "name": "Zillow",
+    "provider": "greenhouse",
+    "slug": "zillow",
+    "enabled": false
+  },
+  {
+    "name": "Zoox",
+    "provider": "greenhouse",
+    "slug": "zoox",
+    "enabled": false
+  },
+  {
+    "name": "Zynga",
+    "provider": "greenhouse",
+    "slug": "zynga",
+    "enabled": false
+  },
+  {
+    "name": "Abnormal Security",
+    "provider": "ashby",
+    "slug": "abnormalsecurity",
+    "enabled": false
+  },
+  {
+    "name": "Anysphere (Cursor)",
+    "provider": "ashby",
+    "slug": "anysphere",
+    "enabled": false
+  },
+  {
+    "name": "Applied Intuition",
+    "provider": "ashby",
+    "slug": "applied-intuition",
+    "enabled": false
+  },
+  {
+    "name": "Axiom",
+    "provider": "ashby",
+    "slug": "axiom"
+  },
+  {
+    "name": "Cognition",
+    "provider": "ashby",
+    "slug": "cognition"
+  },
+  {
+    "name": "Crusoe",
+    "provider": "ashby",
+    "slug": "crusoe"
+  },
+  {
+    "name": "Decagon",
+    "provider": "ashby",
+    "slug": "decagon"
+  },
+  {
+    "name": "ElevenLabs",
+    "provider": "ashby",
+    "slug": "elevenlabs"
+  },
+  {
+    "name": "Fireworks AI",
+    "provider": "ashby",
+    "slug": "fireworks-ai",
+    "enabled": false
+  },
+  {
+    "name": "Harvey",
+    "provider": "ashby",
+    "slug": "harvey"
+  },
+  {
+    "name": "Hightouch",
+    "provider": "ashby",
+    "slug": "hightouch"
+  },
+  {
+    "name": "Linear",
+    "provider": "ashby",
+    "slug": "linear"
+  },
+  {
+    "name": "Mercury",
+    "provider": "ashby",
+    "slug": "mercury"
+  },
+  {
+    "name": "Midjourney",
+    "provider": "ashby",
+    "slug": "midjourney"
+  },
+  {
+    "name": "Modal",
+    "provider": "ashby",
+    "slug": "modal"
+  },
+  {
+    "name": "Modern Treasury",
+    "provider": "ashby",
+    "slug": "moderntreasury"
+  },
+  {
+    "name": "MotherDuck",
+    "provider": "ashby",
+    "slug": "motherduck"
+  },
+  {
+    "name": "Neon",
+    "provider": "ashby",
+    "slug": "neon"
+  },
+  {
+    "name": "OpenRouter",
+    "provider": "ashby",
+    "slug": "openrouter"
+  },
+  {
+    "name": "Perplexity",
+    "provider": "ashby",
+    "slug": "perplexity"
+  },
+  {
+    "name": "Pinecone",
+    "provider": "ashby",
+    "slug": "pinecone"
+  },
+  {
+    "name": "Pulley",
+    "provider": "ashby",
+    "slug": "pulley",
+    "enabled": false
+  },
+  {
+    "name": "Railway",
+    "provider": "ashby",
+    "slug": "railway"
+  },
+  {
+    "name": "Ramp",
+    "provider": "ashby",
+    "slug": "ramp"
+  },
+  {
+    "name": "Render",
+    "provider": "ashby",
+    "slug": "render"
+  },
+  {
+    "name": "Replit",
+    "provider": "ashby",
+    "slug": "replit"
+  },
+  {
+    "name": "Sierra",
+    "provider": "ashby",
+    "slug": "sierra"
+  },
+  {
+    "name": "Supabase",
+    "provider": "ashby",
+    "slug": "supabase"
+  },
+  {
+    "name": "Tailscale",
+    "provider": "ashby",
+    "slug": "tailscale",
+    "enabled": false
+  },
+  {
+    "name": "Together AI",
+    "provider": "ashby",
+    "slug": "together-ai",
+    "enabled": false
+  },
+  {
+    "name": "Vercel",
+    "provider": "ashby",
+    "slug": "vercel"
+  },
+  {
+    "name": "Warp",
+    "provider": "ashby",
+    "slug": "warp"
+  },
+  {
+    "name": "Watershed",
+    "provider": "ashby",
+    "slug": "watershed"
+  },
+  {
+    "name": "Weights & Biases",
+    "provider": "ashby",
+    "slug": "wandb",
+    "enabled": false
+  },
+  {
+    "name": "Eventbrite",
+    "provider": "lever",
+    "slug": "eventbrite",
+    "enabled": false
+  },
+  {
+    "name": "Foursquare",
+    "provider": "lever",
+    "slug": "foursquare",
+    "enabled": false
+  },
+  {
+    "name": "Hugging Face",
+    "provider": "lever",
+    "slug": "huggingface",
+    "enabled": false
+  },
+  {
+    "name": "Mistral AI",
+    "provider": "lever",
+    "slug": "mistral"
+  },
+  {
+    "name": "Netflix",
+    "provider": "lever",
+    "slug": "netflix"
+  },
+  {
+    "name": "Spotify",
+    "provider": "lever",
+    "slug": "spotify"
+  }
+]
