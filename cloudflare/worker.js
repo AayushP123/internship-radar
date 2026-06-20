@@ -313,6 +313,12 @@ async function runShard(env, shard) {
     companies: companies.length,
     jobs: jobs.length,
     matched: matched.length,
+    matchedJobs: matched.map(({ company, title, location, url }) => ({
+      company,
+      title,
+      location,
+      url,
+    })),
     sent,
     errors: errors.slice(0, 10),
   };
@@ -322,7 +328,7 @@ async function runShard(env, shard) {
   return status;
 }
 
-async function statusResponse(env) {
+async function readStatus(env) {
   const statuses = await Promise.all(
     [...Array(SHARD_COUNT).keys()].map((shard) =>
       env.SEEN.get(`status:${shard}`, "json"),
@@ -334,12 +340,88 @@ async function statusResponse(env) {
       status &&
       now - Date.parse(status.completedAt) < 12 * 60 * 1000,
   );
-  return Response.json({
+  const jobs = statuses
+    .flatMap((status) => status?.matchedJobs || [])
+    .sort((a, b) =>
+      `${a.company} ${a.title}`.localeCompare(`${b.company} ${b.title}`),
+    );
+  return {
     service: "Internship Radar",
     healthy: fresh,
     schedule: "One queue-driven shard per minute; every company every 4 minutes",
+    lastUpdated: statuses
+      .filter(Boolean)
+      .map((status) => status.completedAt)
+      .sort()
+      .at(-1),
+    currentPostings: jobs,
     shards: statuses,
-  });
+  };
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function dashboard(data) {
+  const cards = data.currentPostings.length
+    ? data.currentPostings
+        .map(
+          (job) => `
+          <a class="job" href="${escapeHtml(job.url)}" target="_blank" rel="noopener">
+            <div class="company">${escapeHtml(job.company)}</div>
+            <div class="title">${escapeHtml(job.title)}</div>
+            <div class="location">${escapeHtml(job.location || "Location not listed")}</div>
+            <div class="apply">Open application →</div>
+          </a>`,
+        )
+        .join("")
+    : '<div class="empty">Postings are refreshing. Reload in a few minutes.</div>';
+  const updated = data.lastUpdated
+    ? new Date(data.lastUpdated).toLocaleString("en-US", {
+        timeZone: "America/Phoenix",
+        timeZoneName: "short",
+      })
+    : "Waiting for first refresh";
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="refresh" content="60">
+  <title>Internship Radar</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    body { margin: 0; background: #080b12; color: #f4f7ff; }
+    main { max-width: 850px; margin: auto; padding: 32px 18px 60px; }
+    h1 { font-size: clamp(28px, 7vw, 48px); margin: 0 0 8px; letter-spacing: -1.5px; }
+    .status { color: #aeb8cf; margin-bottom: 28px; line-height: 1.6; }
+    .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: ${data.healthy ? "#39d98a" : "#ffbf47"}; }
+    .jobs { display: grid; gap: 12px; }
+    .job { display: block; padding: 18px; color: inherit; text-decoration: none; background: #121725; border: 1px solid #252d41; border-radius: 14px; transition: .15s ease; }
+    .job:hover { transform: translateY(-2px); border-color: #667eea; background: #171e30; }
+    .company { color: #91a7ff; font-size: 14px; font-weight: 700; }
+    .title { font-size: 19px; font-weight: 750; margin: 5px 0; }
+    .location { color: #aeb8cf; font-size: 14px; }
+    .apply { margin-top: 14px; color: #70d6ff; font-weight: 650; font-size: 14px; }
+    .empty { padding: 30px; background: #121725; border-radius: 14px; color: #aeb8cf; }
+  </style>
+</head>
+<body><main>
+  <h1>Internship Radar</h1>
+  <div class="status">
+    <span class="dot"></span>${data.healthy ? "Monitor online" : "Monitor refreshing"}<br>
+    ${data.currentPostings.length} current matching postings · Last checked ${escapeHtml(updated)}<br>
+    This page refreshes automatically every minute.
+  </div>
+  <div class="jobs">${cards}</div>
+</main></body>
+</html>`;
 }
 
 export default {
@@ -360,8 +442,19 @@ export default {
 
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (url.pathname === "/" || url.pathname === "/status") {
-      return statusResponse(env);
+    const data = await readStatus(env);
+    if (url.pathname === "/") {
+      return new Response(dashboard(data), {
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store",
+        },
+      });
+    }
+    if (url.pathname === "/status") {
+      return Response.json(data, {
+        headers: { "Cache-Control": "no-store" },
+      });
     }
     return new Response("Not found", { status: 404 });
   },
