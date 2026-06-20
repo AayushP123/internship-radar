@@ -30,6 +30,7 @@ topic supplied separately. Treat that topic name like a password.
 python monitor.py
 python monitor.py --loop --interval 120
 python monitor.py --test-notification
+python monitor.py --send-current
 python validate_sources.py
 ```
 

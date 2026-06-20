@@ -303,14 +303,23 @@ def notify_ntfy(topic: str, job: Job, priority: int = 4) -> None:
 
 
 def send_test(topic: str) -> None:
-    job = Job(
-        source="test",
-        company="Internship Radar",
-        title="Notifications are working",
-        location="Your phone",
-        url="https://ntfy.sh",
+    message = (
+        "Notifications are working.\n\n"
+        "This is only a test—there is no job attached. Real alerts show the "
+        "company, role, and location, and tapping them opens the application."
     )
-    notify_ntfy(topic, job)
+    request_bytes(
+        f"https://ntfy.sh/{urllib.parse.quote(topic)}",
+        method="POST",
+        body=message.encode("utf-8"),
+        headers={
+            "Title": "Internship Radar test",
+            "Priority": "4",
+            "Tags": "white_check_mark",
+            "Content-Type": "text/plain; charset=utf-8",
+        },
+        attempts=3,
+    )
     print(f"Test notification sent to https://ntfy.sh/{topic}")
 
 
@@ -327,7 +336,14 @@ def save_state(path: Path, state: dict[str, Any]) -> None:
     os.replace(tmp, path)
 
 
-def run_once(config_path: Path, companies_path: Path, state_path: Path, *, dry_run: bool = False) -> int:
+def run_once(
+    config_path: Path,
+    companies_path: Path,
+    state_path: Path,
+    *,
+    dry_run: bool = False,
+    send_current: bool = False,
+) -> int:
     config = read_json(config_path, {})
     company_catalog = read_json(companies_path, [])
     companies = [item for item in company_catalog if item.get("enabled", True)]
@@ -359,10 +375,14 @@ def run_once(config_path: Path, companies_path: Path, state_path: Path, *, dry_r
         if matches(job, config["filters"], allow_companies)
     }
     first_run = not state.get("initialized", False)
-    new_jobs = [job for key, job in matched_by_id.items() if key not in state["seen"]]
+    new_jobs = (
+        list(matched_by_id.values())
+        if send_current
+        else [job for key, job in matched_by_id.items() if key not in state["seen"]]
+    )
     new_jobs.sort(key=lambda job: (normalize(job.company), normalize(job.title)))
 
-    if first_run and config.get("seed_without_alerting", True):
+    if first_run and config.get("seed_without_alerting", True) and not send_current:
         print(f"Seeded {len(matched_by_id)} existing matching jobs without alerting.")
     else:
         cap = int(config.get("max_alerts_per_run", 20))
@@ -424,6 +444,11 @@ def main() -> int:
     parser.add_argument("--interval", type=int, default=120, help="Loop interval in seconds.")
     parser.add_argument("--dry-run", action="store_true", help="Print alerts without sending or saving.")
     parser.add_argument("--test-notification", action="store_true")
+    parser.add_argument(
+        "--send-current",
+        action="store_true",
+        help="Send every currently matching job, even if it has already been seen.",
+    )
     args = parser.parse_args()
 
     config = read_json(args.config, {})
@@ -432,7 +457,13 @@ def main() -> int:
         send_test(topic)
         return 0
     if not args.loop:
-        return run_once(args.config, args.companies, args.state, dry_run=args.dry_run)
+        return run_once(
+            args.config,
+            args.companies,
+            args.state,
+            dry_run=args.dry_run,
+            send_current=args.send_current,
+        )
 
     while True:
         started = time.monotonic()

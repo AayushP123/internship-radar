@@ -2,7 +2,9 @@ name: Internship Radar
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    # Every five minutes, offset from :00 where GitHub reports the heaviest
+    # scheduler load and a higher chance of delayed or dropped runs.
+    - cron: "3,8,13,18,23,28,33,38,43,48,53,58 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -26,6 +28,12 @@ jobs:
           python-version: "3.13"
       - name: Check for new internships
         run: python monitor.py
+      - name: Record poll in job summary
+        if: always()
+        run: |
+          echo "### Internship Radar poll" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Completed: $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Trigger: $GITHUB_EVENT_NAME" >> "$GITHUB_STEP_SUMMARY"
       - name: Persist deduplication state
         run: |
           if git diff --quiet -- state.json; then
