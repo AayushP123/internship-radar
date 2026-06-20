@@ -345,6 +345,10 @@ async function readStatus(env) {
     .sort((a, b) =>
       `${a.company} ${a.title}`.localeCompare(`${b.company} ${b.title}`),
     );
+  const companyCount = statuses.reduce(
+    (total, status) => total + (status?.companies || 0),
+    0,
+  );
   return {
     service: "Internship Radar",
     healthy: fresh,
@@ -354,6 +358,7 @@ async function readStatus(env) {
       .map((status) => status.completedAt)
       .sort()
       .at(-1),
+    companyCount,
     currentPostings: jobs,
     shards: statuses,
   };
@@ -393,15 +398,19 @@ function dashboard(data) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="refresh" content="60">
   <title>Internship Radar</title>
   <style>
     :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
     body { margin: 0; background: #080b12; color: #f4f7ff; }
     main { max-width: 850px; margin: auto; padding: 32px 18px 60px; }
     h1 { font-size: clamp(28px, 7vw, 48px); margin: 0 0 8px; letter-spacing: -1.5px; }
-    .status { color: #aeb8cf; margin-bottom: 28px; line-height: 1.6; }
+    .status { color: #aeb8cf; margin-bottom: 18px; line-height: 1.6; }
     .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; background: ${data.healthy ? "#39d98a" : "#ffbf47"}; }
+    .controls { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .sync { color: #8f9bb3; font-size: 13px; }
+    button { appearance: none; border: 1px solid #35415f; border-radius: 10px; padding: 9px 13px; background: #171e30; color: #f4f7ff; font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover { border-color: #667eea; }
+    button:disabled { opacity: .65; cursor: wait; }
     .jobs { display: grid; gap: 12px; }
     .job { display: block; padding: 18px; color: inherit; text-decoration: none; background: #121725; border: 1px solid #252d41; border-radius: 14px; transition: .15s ease; }
     .job:hover { transform: translateY(-2px); border-color: #667eea; background: #171e30; }
@@ -415,11 +424,124 @@ function dashboard(data) {
 <body><main>
   <h1>Internship Radar</h1>
   <div class="status">
-    <span class="dot"></span>${data.healthy ? "Monitor online" : "Monitor refreshing"}<br>
-    ${data.currentPostings.length} current matching postings · Last checked ${escapeHtml(updated)}<br>
-    This page refreshes automatically every minute.
+    <span class="dot" id="health-dot"></span><span id="health">${data.healthy ? "Monitor online" : "Monitor refreshing"}</span><br>
+    <span id="count">${data.currentPostings.length}</span> current matching postings · Last checked <span id="updated">${escapeHtml(updated)}</span><br>
+    <span id="coverage">${data.companyCount || 0}</span> companies scanned; every company is checked about every 4 minutes.
   </div>
-  <div class="jobs">${cards}</div>
+  <div class="controls">
+    <button id="refresh" type="button">Refresh now</button>
+    <span class="sync" id="sync">Live sync starting…</span>
+  </div>
+  <div class="jobs" id="jobs">${cards}</div>
+  <noscript><meta http-equiv="refresh" content="60"></noscript>
+  <script>
+    (() => {
+      const jobs = document.getElementById("jobs");
+      const refreshButton = document.getElementById("refresh");
+      const sync = document.getElementById("sync");
+      let lastSync = 0;
+
+      function formatTime(value) {
+        if (!value) return "Waiting for first refresh";
+        return new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Phoenix",
+          month: "numeric",
+          day: "numeric",
+          year: "numeric",
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZoneName: "short",
+        }).format(new Date(value));
+      }
+
+      function createJob(job) {
+        const card = document.createElement("a");
+        card.className = "job";
+        card.href = job.url;
+        card.target = "_blank";
+        card.rel = "noopener";
+        const company = document.createElement("div");
+        company.className = "company";
+        company.textContent = job.company;
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = job.title;
+        const location = document.createElement("div");
+        location.className = "location";
+        location.textContent = job.location || "Location not listed";
+        const apply = document.createElement("div");
+        apply.className = "apply";
+        apply.textContent = "Open application →";
+        card.append(company, title, location, apply);
+        return card;
+      }
+
+      function render(data) {
+        document.getElementById("health").textContent =
+          data.healthy ? "Monitor online" : "Monitor refreshing";
+        document.getElementById("health-dot").style.background =
+          data.healthy ? "#39d98a" : "#ffbf47";
+        document.getElementById("count").textContent =
+          data.currentPostings.length;
+        document.getElementById("updated").textContent =
+          formatTime(data.lastUpdated);
+        document.getElementById("coverage").textContent =
+          data.companyCount || 0;
+        jobs.replaceChildren();
+        if (!data.currentPostings.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent =
+            "No matching postings are live right now. Monitoring continues.";
+          jobs.append(empty);
+          return;
+        }
+        jobs.append(...data.currentPostings.map(createJob));
+      }
+
+      function updateSyncLabel() {
+        if (!lastSync) return;
+        const seconds = Math.max(
+          0,
+          Math.floor((Date.now() - lastSync) / 1000),
+        );
+        sync.textContent =
+          seconds < 2
+            ? "Live data synced just now"
+            : "Live data synced " + seconds + "s ago";
+      }
+
+      async function refresh() {
+        refreshButton.disabled = true;
+        sync.textContent = "Checking live data…";
+        try {
+          const response = await fetch("/status?ts=" + Date.now(), {
+            cache: "no-store",
+          });
+          if (!response.ok) throw new Error("Status request failed");
+          render(await response.json());
+          lastSync = Date.now();
+          updateSyncLabel();
+        } catch (error) {
+          sync.textContent =
+            "Could not sync; retrying automatically (" +
+            (error?.message || "unknown error") +
+            ")";
+        } finally {
+          refreshButton.disabled = false;
+        }
+      }
+
+      refreshButton.addEventListener("click", refresh);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) refresh();
+      });
+      setInterval(refresh, 15000);
+      setInterval(updateSyncLabel, 1000);
+      refresh();
+    })();
+  </script>
 </main></body>
 </html>`;
 }
@@ -448,12 +570,18 @@ export default {
         headers: {
           "Content-Type": "text/html; charset=utf-8",
           "Cache-Control": "no-store",
+          Pragma: "no-cache",
+          Expires: "0",
         },
       });
     }
     if (url.pathname === "/status") {
       return Response.json(data, {
-        headers: { "Cache-Control": "no-store" },
+        headers: {
+          "Cache-Control": "no-store",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       });
     }
     return new Response("Not found", { status: 404 });
