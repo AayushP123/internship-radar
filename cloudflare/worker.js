@@ -1,13 +1,6 @@
 const CATALOG_URL =
   "https://raw.githubusercontent.com/AayushP123/internship-radar/main/companies.json";
 
-const SHARD_CRONS = {
-  "1-56/5 * * * *": 0,
-  "2-57/5 * * * *": 1,
-  "3-58/5 * * * *": 2,
-  "4-59/5 * * * *": 3,
-};
-
 const SHARD_COUNT = 4;
 const ALERT_CAP = 10;
 const INTERNSHIP_TERMS = ["intern", "internship", "co-op", "coop"];
@@ -345,8 +338,10 @@ async function statusResponse(env) {
 
 export default {
   async scheduled(controller, env, ctx) {
-    const shard = SHARD_CRONS[controller.cron];
-    if (shard === undefined) throw new Error(`Unknown cron: ${controller.cron}`);
+    const shard = Number(env.SHARD_INDEX);
+    if (!Number.isInteger(shard) || shard < 0 || shard >= SHARD_COUNT) {
+      throw new Error(`Invalid SHARD_INDEX: ${env.SHARD_INDEX}`);
+    }
     ctx.waitUntil(runShard(env, shard));
   },
 
@@ -358,4 +353,3 @@ export default {
     return new Response("Not found", { status: 404 });
   },
 };
-
